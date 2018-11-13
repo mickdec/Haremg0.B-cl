@@ -1,4 +1,4 @@
-<center>  <img style="width:30%" src="https://raw.githubusercontent.com/mickdec/Haremg0.B-cl/master/READMERES/Haremg0.png" /></center>
+<center>![](https://raw.githubusercontent.com/mickdec/Haremg0.B-cl/master/READMERES/Haremg0.png =100x20)</center>
 <center><h1>Haremg0.B!cl</h1></center>
 <center><i>A tool for creating a fully obfuscated Trojan Horse for windows.</i></center>
 
