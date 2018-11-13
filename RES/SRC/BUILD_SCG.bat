@@ -1,0 +1,1 @@
+start gcc -static Source_Code_Generator.c res_SCG -o ../../Haremg0

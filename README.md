@@ -1,14 +1,15 @@
+<center>  <img style="width:30%" src="https://raw.githubusercontent.com/mickdec/Haremg0.B-cl/master/READMERES/Haremg0.png" /></center>
 <center><h1>Haremg0.B!cl</h1></center>
 <center><i>A tool for creating a fully obfuscated Trojan Horse for windows.</i></center>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/mickdec/Haremg0.B-cl/master/READMERES/01.gif" />
+  <img style="width:70%" src="https://raw.githubusercontent.com/mickdec/Haremg0.B-cl/master/READMERES/01.gif" />
 </p>
 <h2>REQUIREMENTS</h2>
 <ul>
 <li>1. A <b>windows operating system</b> (preferably Win10).
 <li>2. An <b>external file provider</b> :
-could be an <b>apache, on a vps</b> or on your personnal machine, if it can distribute you a file just by the ip you have defined, on WAN or LAN (Like 100.1.1.1/MyFile) it will work fine.
+could be an <b>apache, on a vps</b> or on your personnal machine, if it can distribute you a file just by the ip you have defined, on WAN or LAN (Like X.X.X.X/MyFile) it will work fine.
 <li>3. <b>A Host who will listen for a TCP connection on a defined port.</b> You can use a metasploit framework handler for example, <b>using "multi/handler"</b> and setting your <b>LPORT to the trojan defined port</b>.
 <li>4. <b>g++</b> (and gcc if you want to recompile "Source_Code_Generator.cpp") you can install gcc or g++ with <a href="https://cygwin.com/setup-x86_64.exe">CygWin</a>.
 </ul>
@@ -35,9 +36,9 @@ This tool let you create a fully obfuscated trojan horse. This trojan will :
 Run Haremg0.exe and follow the instructions no parameters is needed for now.
 <ul>
 <li>1. Define the path and the name of the created dir (ex: C:/test)
-<li>2. Define the ip of your file provider (ex : 50.1.1.1:85/Files)
+<li>2. Define the ip of your file provider (ex : X.X.X.X:85/Files)
 <li>3. Define the name of the two files who will be downloaded (ex: FileA,FileB)
-<li>4. Define the host ip and port who will receive the connection (ex : 50.1.1.1:4469)
+<li>4. Define the host ip and port who will receive the connection (ex : X.X.X.X and 4499)
 <li>5. The exe will be created !
 </ul>
 <p>
