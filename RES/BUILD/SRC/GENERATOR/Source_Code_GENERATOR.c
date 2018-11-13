@@ -23,7 +23,7 @@ void compile(char *compiled_file, char *first_file_provided)
 
     strcpy(cmd, "start g++ ");
     strcat(cmd, compiled_file);
-    strcat(cmd, " -o ../../../../OUTPUT/");
+    strcat(cmd, " -o OUTPUT/");
     strcat(cmd, first_file_provided);
     strcat(cmd, ".exe");
 
