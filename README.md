@@ -35,7 +35,7 @@ This tool let you create a fully obfuscated trojan horse. This trojan will :
 Run Haremg0.exe and follow the instructions no parameters is needed for now.
 <ul>
 <li>1. Define the path and the name of the created dir (ex: C:/test)
-<li>2. Define the ip of your file provider (ex : 50.1.1.1:85/Files)
+<li>2. Define the ip of your file provider (ex : 216.58.208.227:85/Files)
 <li>3. Define the name of the two files who will be downloaded (ex: FileA,FileB)
 <li>4. Define the host ip and port who will receive the connection (ex : 50.1.1.1:4469)
 <li>5. The exe will be created !
