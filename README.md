@@ -10,6 +10,7 @@
 <li>2. An <b>external file provider</b> :
 could be an <b>apache, on a vps</b> or on your personnal machine, if it can distribute you a file just by the ip you have defined, on WAN or LAN (Like 100.1.1.1/MyFile) it will work fine.
 <li>3. <b>A Host who will listen for a TCP connection on a defined port.</b> You can use a metasploit framework handler for example, <b>using "multi/handler"</b> and setting your <b>LPORT to the trojan defined port</b>.
+<li>4. <b>g++</b> (and gcc if you want to recompile "Source_Code_Generator.cpp") you can install gcc or g++ with <a href="https://cygwin.com/setup-x86_64.exe">CygWin</a>.
 </ul>
 <h2>DISCLAIMER</h2>
 <p><i>
