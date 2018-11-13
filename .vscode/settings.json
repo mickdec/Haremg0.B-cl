@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "*.cshtml": "html",
+        "iosfwd": "c",
+        "xlocale": "c",
+        "xstring": "c",
+        "string": "c"
+    }
+}
