@@ -2,16 +2,15 @@
   <img src="https://raw.githubusercontent.com/mickdec/Haremg0.B-cl/master/READMERES/Haremg0-200x200.png" />
 </div>
 
-<center>
+<div align="center">
   <h1 align="center">Haremg0.B!cl</h1>
-</center>
-<center>
   <i align="center">A tool for creating a fully obfuscated Trojan Horse for windows.</i>
-</center>
+</div>
 
 <p align="center">
   <img style="width:70%" src="https://raw.githubusercontent.com/mickdec/Haremg0.B-cl/master/READMERES/01.gif" />
 </p>
+
 <h2>REQUIREMENTS</h2>
 <ul>
 <li>1. A <b>windows operating system</b> (preferably Win10).
