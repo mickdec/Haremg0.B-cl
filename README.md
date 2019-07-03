@@ -35,7 +35,7 @@ This tool let you create a fully obfuscated trojan horse. This trojan will :
 <li>Download 2 files (FileA and FileB) from the File provider you have specified into the created dir.
 <li>Run FileA who will run FileB.
 <li>FileB will send by TCP a SHELL from the victim to your specified host IP and PORT.
-<li>Create à planified task who will be runned all 5 minutes, who run FileA.
+<li>You can create a planified task who will run FileA.
 </ul>
 </p>
 <h2>USAGE</h2>
